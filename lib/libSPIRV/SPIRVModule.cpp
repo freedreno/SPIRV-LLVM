@@ -239,6 +239,8 @@ public:
       const std::vector<SPIRVWord>&, SPIRVBasicBlock *);
   virtual SPIRVInstruction *addPhiInst(SPIRVType *, std::vector<SPIRVValue *>,
       SPIRVBasicBlock *);
+  virtual SPIRVInstruction *addLoopMergeInstr(SPIRVBasicBlock *MergeBB,
+      SPIRVBasicBlock *ContinueBB, SPIRVBasicBlock *BB);
   virtual SPIRVInstruction *addCompositeExtractInst(SPIRVType *, SPIRVValue *,
       const std::vector<SPIRVWord>&, SPIRVBasicBlock *);
   virtual SPIRVInstruction *addCompositeInsertInst(SPIRVValue *Object,
@@ -932,6 +934,12 @@ SPIRVInstruction *
 SPIRVModuleImpl::addPhiInst(SPIRVType *Type,
     std::vector<SPIRVValue *> IncomingPairs, SPIRVBasicBlock *BB) {
   return addInstruction(new SPIRVPhi(Type, getId(), IncomingPairs, BB), BB);
+}
+
+SPIRVInstruction *
+SPIRVModuleImpl::addLoopMergeInstr(SPIRVBasicBlock *MergeBB,
+    SPIRVBasicBlock *ContinueBB, SPIRVBasicBlock *BB) {
+  return addInstruction(new SPIRVLoopMerge(MergeBB, ContinueBB, BB), BB);
 }
 
 SPIRVInstruction *
